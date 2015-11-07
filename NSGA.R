@@ -1,5 +1,6 @@
 rm(list=ls())
-source("FunNGSA.R")
+setwd("NSGA")
+source("FunNSGA.R")
 corde<-matrix(c(37,52,49,49,52,64,20,26,40,30,21,47,17,63,31,62,52,33,51,21,42,41,31,32,5,25,
      12,42,36,16,52,41,27,23,17,33,13,13,57,58),ncol=2,byrow = T)
 numrow<-dim(corde)[1]
@@ -22,13 +23,12 @@ pob<-matrix(nrow=sizepob*2,ncol=numrow) # poblation two times more bigger
 
 # Lo que se va a realizae es duplicar la población inicial.
 pcity<-1:numrow
-funObdis<-vector(length = numrow)
-funObemi<-vector(length = numrow)
+funObje<-matrix(nrow = numrow,ncol = 2)
 for (i in 1:(sizepob*2)){
    pcity<-sample(pcity)
    pob[i,]<-pcity
-   funObdis[i]<-disre(pcity,dist)
-   funObemi[i]<-disre(pcity,poluci)
+   funObje[i,1]<-disre(pcity,dist)
+   funObje[i,2]<-disre(pcity,poluci)
   }
 
 
