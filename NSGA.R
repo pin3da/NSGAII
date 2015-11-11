@@ -1,5 +1,5 @@
 rm(list=ls())
-setwd("NSGA")
+MaxMin<-c(0,1)
 source("FunNSGA.R")
 corde<-matrix(c(37,52,49,49,52,64,20,26,40,30,21,47,17,63,31,62,52,33,51,21,42,41,31,32,5,25,
      12,42,36,16,52,41,27,23,17,33,13,13,57,58),ncol=2,byrow = T)
@@ -30,6 +30,15 @@ for (i in 1:(sizepob*2)){
    funObje[i,1]<-disre(pcity,dist)
    funObje[i,2]<-disre(pcity,poluci)
   }
+funObje<-cbind(funObje,1:nrow(funObje))
+funObje<-funObje[order(funObje[,1],funObje[,2]),]
+frentes<-ParetoFront(funObje,MaxMin)
+rmna<-which(is.na(frentes[,1]))
+frentes<-frentes[-rmna,]
+orfre<-apply(frentes,1,dife<-function(a){a[!is.na(a)]})
 
+gra<-funObje[funObje[,3] %in% orfre[[1]],]
+plot(gra[,1],gra[,2],type="l",col="blue")
 
+                     
 
