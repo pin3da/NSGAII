@@ -10,11 +10,10 @@ disre<-function(pcity,dis){
 
 ParetoFront<-function(funObje,MaxMin){
   numrow<-nrow(funObje)
-  x1<-funObje
   repet<-vector(length = numrow)
   cont<-0
   for(i in 1:(numrow-1)){
-    if(all(x1[i,1:2]==x1[(i+1),1:2])==TRUE){
+    if(all(funObje[i,1:2]==funObje[(i+1),1:2])==TRUE){
       cont<-cont+1
       repet[cont]<-i
     }
@@ -22,40 +21,57 @@ ParetoFront<-function(funObje,MaxMin){
   # se elieminan las funciones objetivos iguales. 
   if(any(repet!=0)==TRUE){
     repet<-repet[repet > 0]
-    x1<-x1[-repet,]
+    funObje<-funObje[-repet,]
   }
-  
-  front<-matrix(nrow = nrow(x1),ncol=nrow(x1))
+  if(all(MaxMin==c(1,1)) || all(MaxMin==c(1,0))){
+    funObje<-funObje[order(funObje[,1],funObje[,2],decreasing=TRUE),]
+  }
+  front<-matrix(nrow = nrow(funObje),ncol=nrow(funObje))
   contcol<-0
   contfil<-0
   breakd<-0
-  maxfil<-nrow(x1)
+  maxfil<-nrow(funObje)
   while(breakd < (maxfil-1)){
     contfil<-contfil+1
     contcol<-0
-    for (i in 1:nrow(x1)){
+    for (i in 1:nrow(funObje)){
       unic<-0
-      for (j in 1:nrow(x1)){
+      for (j in 1:nrow(funObje)){
         if (all(MaxMin==c(0,1))==TRUE && i!=j){
-          if(x1[j,1] <= x1[i,1] && x1[j,2] >= x1[i,2]){
+          if(funObje[j,1] <= funObje[i,1] && funObje[j,2] >= funObje[i,2]){
             unic<-1
             break
           }    
+        }else if(all(MaxMin==c(1,0))==TRUE && i!=j){
+          if(funObje[j,1] >= funObje[i,1] && funObje[j,2] <= funObje[i,2]){
+            unic<-1
+            break
+          }
+        }else if(all(MaxMin==c(1,1))==TRUE && i!=j){
+          if(funObje[j,1] >= funObje[i,1] && funObje[j,2] >= funObje[i,2]){
+            unic<-1
+            break
+          } 
+        }else{
+          if(funObje[j,1] <= funObje[i,1] && funObje[j,2] <= funObje[i,2] && i!=j){
+            unic<-1
+          break
+          }
         }
       }
       if(unic==0){
         contcol<-contcol+1
-        front[contfil,contcol]<-x1[i,3]
+        front[contfil,contcol]<-funObje[i,3]
       }
     }
     breakd<-sum(!is.na(front))
     
     a<-front[!is.na(front)]
-    p<-which(x1[,3] %in% a)
-    x1<-x1[-p,]
+    p<-which(funObje[,3] %in% a)
+    funObje<-funObje[-p,]
   }
   if(breakd != maxfil){
-    front[(contfil+1),1]<-x1[3]
+    front[(contfil+1),1]<-funObje[3]
   }
   return(front)
   }

@@ -1,5 +1,5 @@
 rm(list=ls())
-MaxMin<-c(0,1)
+MaxMin<-c(1,1)
 source("FunNSGA.R")
 corde<-matrix(c(37,52,49,49,52,64,20,26,40,30,21,47,17,63,31,62,52,33,51,21,42,41,31,32,5,25,
      12,42,36,16,52,41,27,23,17,33,13,13,57,58),ncol=2,byrow = T)
@@ -38,7 +38,14 @@ frentes<-frentes[-rmna,]
 orfre<-apply(frentes,1,dife<-function(a){a[!is.na(a)]})
 
 gra<-funObje[funObje[,3] %in% orfre[[1]],]
-plot(gra[,1],gra[,2],type="l",col="blue")
-
-                     
+plot(gra[,1],gra[,2],type="b",col="blue",xlim = c(min(funObje[,1]),max(funObje[,1])),ylim =c(min(funObje[,2]),max(funObje[,2])))
+for( i in 2:length(orfre)){
+  par(new=TRUE)
+  gra<-funObje[funObje[,3] %in% orfre[[i]],]
+  if (is.matrix(gra)==TRUE){
+    plot(gra[,1],gra[,2],type="b",col="blue",xlim = c(min(funObje[,1]),max(funObje[,1])),ylim =c(min(funObje[,2]),max(funObje[,2])))
+   }else{
+   plot(gra[1],gra[2],type="b",col="blue",xlim = c(min(funObje[,1]),max(funObje[,1])),ylim =c(min(funObje[,2]),max(funObje[,2])))
+  }
+ }      
 
