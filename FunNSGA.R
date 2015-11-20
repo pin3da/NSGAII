@@ -76,11 +76,37 @@ ParetoFront<-function(funObje,MaxMin){
   return(front)
   }
 
+apilamiento<-function(mat){
+  numfil<-nrow(mat)
+  apilamiento<-vector(length = (numfil-2))
+  f1max<-max(mat[,1])
+  f1min<-min(mat[,1])
+  f2max<-max(mat[,2])
+  f2min<-min(mat[,2])
+  for (i in 1:(numfil-2)){
+    f1<-abs({mat[i,1]-mat[(i+2),1]}/{f1max-f1min})
+    f2<-abs({mat[i,2]-mat[(i+2),2]}/{f2max-f2min})
+    apilamiento[i]<-f1+f2
+  }
+  return(apilamiento)
+}
 
-
-
-
-
-
-
+nwpob<-function(orfre,funObje,pob,sizepob){
+  summ<-0
+  ind<-0
+  while(summ < sizepob){
+    ind<-ind+1
+    summ<-summ+length(orfre[[ind]])
+  }
+  if(summ==sizepob){
+    a<-NULL
+    for(i in 1:ind){
+      a<-c(a,orfre[[i]])
+    }
+    nwpob<-funObje[funObje[,3] %in% a,]
+  }else{ # aqui vamos
+    
+  }
+  
+}
 
