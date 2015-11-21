@@ -1,6 +1,6 @@
 rm(list=ls())
 
-# Parámtros
+# Parámetros
 MaxMin<-c(1,1)
 genera<-1500 # numbers of generations
 tm<-1 # mutation rate
@@ -24,7 +24,7 @@ poluci<-matrix(nrow=20,ncol=20) # polution.
 poluci<-apply(poluci,1,runif)*100 # matix whit polution. 
 pob<-matrix(nrow=sizepob*2,ncol=numrow) # poblation two times more bigger
 
-# Lo que se va a realizae es duplicar la población inicial.
+# Lo que se va a realizar es duplicar la población inicial.
 pcity<-1:numrow
 funObje<-matrix(nrow = numrow,ncol = 2)
 for (i in 1:(sizepob*2)){
